@@ -1,0 +1,51 @@
+<html>
+  <head>
+    <style type='text/css'>
+      a            { color:#a0a0e0 }
+      div.title    { 
+          color:#C0F0C0; 
+          font-size:1.2em; 
+          font-weight:bold; 
+          margin-top:1em; 
+          margin-bottom:0.5em; 
+          text-align:center }
+      div.subtitle { 
+          color:#C0F0C0; 
+          font-size:0.8em; 
+          margin-bottom:1em; 
+          text-align:center }
+      div.freetext { color:#F0F0F0 }
+      div.list     { color:#C0C0F0 }
+    </style>
+  </head>
+  <body>
+$ 2.1
+  % Version 2.1 
+  _ 5-20-12
+    * Minor bug fixes
+    * Fixed Force CLose on most devices
+    * Minor Interface Changes
+$ 2.0
+  % Version 2.0 
+  _ 3-25-12
+    * Added Gutiar/Piano Sounds (thanks Jacob Sevening!)
+    * Added the ability to save/load chords
+    * Added Help page
+    * Added the ability to change individual chords
+    * Chords can be played by pressing them
+$ 1.1
+  % Version 1.1
+  _ February, 2012
+  	*New User Interface
+  	*Updated Icon
+$ 1.0
+  % Version 1.0
+  	_ January, 2012
+	 *First Release
+	 *Basic Chord Generator Created
+	 
+	 * Thanks to Karsten Priegnitz for this awesome changelog!!!
+
+$ END_OF_CHANGE_LOG
+  </body>
+</html>

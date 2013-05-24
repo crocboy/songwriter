@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_height="wrap_content"
+    android:layout_width="fill_parent"
+    android:orientation="vertical" >
+    <ScrollView 
+        android:layout_height="wrap_content"
+    android:layout_width="fill_parent" >
+    
+     
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/help_view"
+    android:layout_height="wrap_content"
+    android:layout_width="fill_parent"
+    android:textSize="16dp"
+    android:text="@string/help_text"
+    />
+</ScrollView>
+<LinearLayout
+    android:layout_height="wrap_content"
+    android:layout_width="fill_parent" >
+<Button
+    android:id="@+id/back_to_home"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
+    android:text="@string/backtohome"
+    android:textSize="22dp"
+    />
+<Button
+    android:id="@+id/visit_site"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
+    android:text="@string/visitsite"
+    android:textSize="22dp"
+    />
+<Button
+    android:id="@+id/send_email"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
+    android:text="@string/sendemail"
+    android:textSize="22dp"
+    />
+</LinearLayout>
+</LinearLayout>
