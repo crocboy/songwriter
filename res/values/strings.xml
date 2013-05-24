@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hello World, ChordActivity!</string>
+    <string name="app_name">SongWriter</string>
+    <string name="a_button_text">A</string>
+    <string name="b_button_text">B</string>
+    <string name="c_button_text">C</string>
+    <string name="d_button_text">D</string>
+    <string name="e_button_text">E</string>
+    <string name="f_button_text">F</string>
+    <string name="g_button_text">G</string>
+    <string name="gen">Create</string>
+    <string name="play">Play</string>
+    <string name="help">Help</string>
+    <string name="settings">Options</string>
+    <string name="key">test</string>
+    <string name="guitar">Guitar</string>
+    <string name="tempo">Tempo:</string>
+    <string name="loop">Loop</string>
+    <string name="piano">Piano</string>
+    <string name="delete">Delete this item?</string>
+    <string name="clickme">Click a chord to play it, long-press to change it</string>
+     <string name="saveme">Press your phone\'s "Menu" button for more options</string>
+       <string name="changelog_full_title">Change Log</string>
+    <string name="changelog_title">What\'s New</string>
+    <string name="changelog_ok_button">OK</string>
+    
+
+    <string name="help_text">SongWriter is an app designed to help musicians come up with chord sequences.
+        To use the app, simply select a key by clicking on the dropdown menu on the far left.  Then, select major or 
+        minor using the dropdown menu to the right of the first menu.  Click "Create" to generate a random chord progression
+        in the selected key.  When you find one that looks good, press "Play" and the chords will be played, in order.  If one chord doesn\'t sound right, long-press it and you can choose a new one!  Click on
+        a chord at any time to hear it.  When you want to keep a set of chords, press the \'options\' button on your phone to save or load the chords. Thank you for using SongWriter!
+        Please comment and rate on the Android Market.</string>
+    <string name="backtohome">Back to Home</string>
+    <string name="visitsite">Visit Website</string>
+    <string name="sendemail">Send E-Mail</string>
+     <string name="main_no_items">No Chords Saved</string>
+     <string name="entername">Enter a file name:</string>
+
+</resources>
