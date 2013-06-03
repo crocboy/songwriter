@@ -149,7 +149,6 @@ public class MainActivity extends Activity
 			
 			allTextViews = new TextView[] {chordOne, chordTwo, chordThree, chordFour}; //Refresh our global array of TextViews
 		  
-		  
 		    /* Check to see if another activity pre-started us with chords already selected! */
 		    Bundle b = getIntent().getExtras();
 		  
@@ -168,9 +167,8 @@ public class MainActivity extends Activity
 				    Toast.makeText( getApplicationContext(),chords[0] + " loaded!",Toast.LENGTH_SHORT).show();
 			    }
 		    } 
-		  
-			 
-		  
+		    
+		    
 			pianoBox = (CheckBox)findViewById(R.id.piano_box);
 			pianoBox.setChecked(true);
 			guitarBox = (CheckBox)findViewById(R.id.guitar_box);
@@ -458,12 +456,10 @@ public class MainActivity extends Activity
 
 			try 
 			{
-				enterPlay();
-				
 				while(!isCancelled()) 
 				{
-	    			/* Play sounds with calculated delay */
-					/* For now, check for an "isCancelled" after every line */
+					//Play sounds with calculated delay 
+					//For now, check for an "isCancelled" after every line 
 					publishProgress(0);
 		    		playSound(chords[0]);
 		    		if(isCancelled()) { return null; }
@@ -489,7 +485,7 @@ public class MainActivity extends Activity
 		    		Thread.sleep(delay);
 		    		publishProgress(4);
 		    		
-		    		/* If we're not supposed to loop, cancel */
+		    		//If we're not supposed to loop, cancel 
 		    		if(! isLoop) 
 		    		{
 		    			cancel(true);
@@ -502,7 +498,6 @@ public class MainActivity extends Activity
     		}
 			
 			publishProgress(5); //Send the ending signal
-			exitPlay();
 			return null;
 		}
 		
@@ -520,6 +515,7 @@ public class MainActivity extends Activity
 				if(val == 5) 
 				{
 					clearViews();
+					//exitPlay();
 					playButton.setText("Play");
 				}
 				return;
@@ -529,6 +525,7 @@ public class MainActivity extends Activity
 			/* Go through cases and bold/unbold TextViews */
 			if(val == 0) 
 			{
+				//enterPlay();
 				highlightText(allTextViews[val]);
 			}
 			
@@ -575,13 +572,13 @@ public class MainActivity extends Activity
                 startActivityForResult(myHelpIntent, 0);
                 break;
         
-        case R.id.load_item:
+            case R.id.load_item:
 	        	/* Start the "LoadChords" activity */
 	        	Intent myLoadIntent = new Intent(this, LoadChords.class);
 	            startActivityForResult(myLoadIntent, 0);
 	        	break; 
         	
-        case R.id.save_item:
+            case R.id.save_item:
         	
         	try 
         	{
@@ -684,7 +681,7 @@ public class MainActivity extends Activity
 		}
 		  
     	return super.onContextItemSelected(item);
-   }
+    }
     
     
     
@@ -712,11 +709,11 @@ public class MainActivity extends Activity
     {
     	name = Util.toResource(name, isGuitar);
     	
-        float streamVolumeCurrent = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+        /*float streamVolumeCurrent = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
         float streamVolumeMax = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-        float volume = streamVolumeCurrent / streamVolumeMax;  
+        float volume = streamVolumeCurrent / streamVolumeMax;  */
  
-        soundPool.play(soundMap.get(name), volume, volume, 1, 0, 1);
+        soundPool.play(soundMap.get(name), 1, 1, 1, 0, 1);
         
     	/*int id = getResources().getIdentifier("com.ozone.songwriter:raw/" + name,null,null);
     	final MediaPlayer mediaPlayer = MediaPlayer.create(this,id);
