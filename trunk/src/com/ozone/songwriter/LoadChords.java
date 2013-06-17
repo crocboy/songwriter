@@ -2,6 +2,7 @@ package com.ozone.songwriter;
 
 import java.util.ArrayList;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
@@ -11,17 +12,19 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 /* This activity starts when the user wants to load some saved chords */
 /* It will open a database */
 /* It will then start MainActivity with a bundle, and MainActivity will open with these chords */
-public class LoadChords extends ListActivity 
+public class LoadChords extends Activity 
 {
 	SQLiteDatabase db;
 	ArrayAdapter<String> arrayAdapter;
@@ -38,10 +41,20 @@ public class LoadChords extends ListActivity
 			DatabaseHelper helper = new DatabaseHelper(this);
 			db = helper.getReadableDatabase();
 			
+			/* Grab views from XML */
+			final ListView chordsListView = (ListView) findViewById(R.id.load_file_list);
+			
+			/* Set up the TextView that is the ListView's "empty" view */
+			final TextView emptyView = new TextView(this);
+			emptyView.setText("No chords saved.");
+			emptyView.setTextSize(27);
+			emptyView.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+			chordsListView.setEmptyView(findViewById(R.id.load_file_empty));
+			
 			/* Query the database, and populate the ListView */
 			final ArrayList<String> loadedData = new ArrayList<String>();
 			String[] fields = new String[] {"_id","title","c1","c2","c3","c4"};
-			final Cursor data = db.query("names",fields, null, null, null, null, null);
+			final Cursor data = db.query("names", fields, null, null, null, null, null);
 			data.moveToFirst();
 			
 			for(int i = 0; i < data.getCount(); i++) 
@@ -49,8 +62,16 @@ public class LoadChords extends ListActivity
 				loadedData.add(data.getString(1) + ":          " + data.getString(2) + ","+ data.getString(3) +","+ data.getString(4) + "," +data.getString(5));
 				data.moveToNext();
 			}
+			
+			
+			/* If there are no chords saved, notify the user */
+			if(loadedData.size() == 0)
+			{
+				emptyView.setText("No chords saved.");
+			}
+				
 
-			final ListView chordsListView = getListView();
+			
 			arrayAdapter = new ArrayAdapter<String>(this, R.layout.row, loadedData);
 			chordsListView.setAdapter(arrayAdapter);
 			registerForContextMenu(chordsListView);
@@ -113,6 +134,9 @@ public class LoadChords extends ListActivity
 			      		  		data.moveToNext();
 		      		  		}
 	      		  	
+			      			/* Get our refreshed adapter (After saving) */
+			      			ArrayAdapter<String> refreshedAdapter = refreshArrayAdapter();
+			      			
 			      			chordsListView.setAdapter(refreshArrayAdapter());
 			      			data.close();
 	      			  	}});

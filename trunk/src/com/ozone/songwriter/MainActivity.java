@@ -3,8 +3,6 @@ package com.ozone.songwriter;
 import java.util.HashMap;
 import java.util.Random;
 
-import com.ozone.songwriter.Circle.Key;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentValues;
@@ -14,8 +12,6 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
 import android.media.AudioManager;
-import android.media.MediaPlayer;
-import android.media.MediaPlayer.OnCompletionListener;
 import android.media.SoundPool;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -35,6 +31,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -48,8 +45,8 @@ public class MainActivity extends Activity
 	public int viewID;
 	public int tempo = 100;
 	boolean isGuitar=false;
-	boolean isPiano=false;
 	boolean isMinor=false;
+	boolean isPlaying = false;
 	public Circle.Key currentKey = new Circle.Key(Circle.A, false);
 	boolean isLoop=false;
 	PlayTask playThread = null;
@@ -84,8 +81,8 @@ public class MainActivity extends Activity
 	Button createButton;
 	Button settingsButton;
 	CheckBox isLoopBox;
-	CheckBox pianoBox;
-	CheckBox guitarBox;
+	RadioButton pianoBox;
+	RadioButton guitarBox;
 	Spinner keySpinner;
 	Spinner modeSpinner;
 	
@@ -94,7 +91,6 @@ public class MainActivity extends Activity
 	
 	/** Array for all affectedViews **/
 	public View[] affectedViews;
-	
 	
 	
     /** Called when the activity is first created. **/
@@ -118,7 +114,11 @@ public class MainActivity extends Activity
 	        /* Load sounds and instantiate AudioManager */
 	        loadSounds();
 	        audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+	        
+	        /* This line causes the hardware controls to adjust the media volume and not the ringer volume */
+	        setVolumeControlStream(AudioManager.STREAM_MUSIC);
         
+	        /* Pull views from XML file */
 	        chordOne = (TextView)findViewById(R.id.randchord1);
 		    chordTwo = (TextView)findViewById(R.id.randchord2);
 			chordThree = (TextView)findViewById(R.id.randchord3);
@@ -136,7 +136,7 @@ public class MainActivity extends Activity
 	        createButton = (Button)findViewById(R.id.gen_button);
 	        settingsButton = (Button) findViewById(R.id.settings_button);
 			
-			/* SeekBars have a min value of zero, so we need to use basic math to set the values */
+			/* SeekBars have a min value of zero, so we need to use basic math to set the min as a non-zero value */ 
 			tempoBar = (SeekBar)findViewById(R.id.tempoBar); 
 			tempoBar.setMax(MAX_BPM - MIN_BPM);
 			tempoBar.setProgress(START_BPM - MIN_BPM);
@@ -164,41 +164,34 @@ public class MainActivity extends Activity
 				    chordThree.setText(chords[3]);
 				    chordFour.setText(chords[4]);
 			        statusView.setText(chords[0] + ":   ");
-				    Toast.makeText( getApplicationContext(),chords[0] + " loaded!",Toast.LENGTH_SHORT).show();
+				    Toast.makeText(getApplicationContext(), chords[0] + " loaded!", Toast.LENGTH_SHORT).show();
 			    }
 		    } 
 		    
 		    
-			pianoBox = (CheckBox)findViewById(R.id.piano_box);
-			pianoBox.setChecked(true);
-			guitarBox = (CheckBox)findViewById(R.id.guitar_box);
+			guitarBox = (RadioButton)findViewById(R.id.guitar_box);
+			pianoBox = (RadioButton)findViewById(R.id.piano_box);
 		    isLoopBox = (CheckBox)findViewById(R.id.loop_box);
+		    
 	      	isGuitar= guitarBox.isChecked();
+	      	pianoBox.setChecked(true);
 	      	
 	      	affectedViews = new View[] { keySpinner, modeSpinner, createButton, playButton, settingsButton, isLoopBox, tempoBar, pianoBox, guitarBox};
 	        
-	        /* Set CheckBox listeners */
+	        /* Set RadioButton listeners */
 	        pianoBox.setOnCheckedChangeListener(new OnCheckedChangeListener() 
 	        {
-				public void onCheckedChanged(CompoundButton paramCompoundButton, boolean paramBoolean) 
+				public void onCheckedChanged(CompoundButton paramCompoundButton, boolean isChecked) 
 				{
-					if(pianoBox.isChecked() == true) 
-					{
-						isGuitar=false;
-	        			guitarBox.setChecked(false);
-	        		}
+					isGuitar = !isChecked;
 				}
 	        });
 	        
 	        guitarBox.setOnCheckedChangeListener(new OnCheckedChangeListener() 
 	        {
-				public void onCheckedChanged(CompoundButton paramCompoundButton, boolean paramBoolean) 
+				public void onCheckedChanged(CompoundButton paramCompoundButton, boolean isChecked) 
 				{
-					if(guitarBox.isChecked() == true) 
-					{
-						isGuitar=true;
-	        			pianoBox.setChecked(false);
-	        		}
+					isGuitar = isChecked;
 				}
 	        });
 	        
@@ -214,10 +207,10 @@ public class MainActivity extends Activity
 					tempo = getTempo();
 	        	}
 	        });
+
 	        
-	        final Button settingsButton = (Button)findViewById(R.id.settings_button);
-		  
 	        /* Open the Options menu when the button is pressed */
+	        Button settingsButton = (Button)findViewById(R.id.settings_button);
 	        settingsButton.setOnClickListener(new View.OnClickListener() 
 	        {
 	        	public void onClick(View v)
@@ -240,34 +233,17 @@ public class MainActivity extends Activity
 		    registerForContextMenu(chordThree);
 		    registerForContextMenu(chordFour);
 		    
-		    /* A global click listener that can be applied to all four TextView's */
+		    /* A global click listener that can be applied to all four TextViews */
 		    View.OnClickListener chordViewListener = new View.OnClickListener() {
 				
 				public void onClick(View arg0) {
 					
-					try {
-
+					try 
+					{
 						TextView chordView = (TextView) arg0;
 						
-						/* Get the string and format it to cooperate with the filenames */
-						String chord = chordView.getText().toString().trim();
-						chord = chord.replace('#', 's').toLowerCase();
-						if(isGuitar==true) {
-				      		  chord += "gut";
-				      	 }
-						
-						/* Get a media player, and play the sound */
-						int id = getResources().getIdentifier("com.ozone.songwriter:raw/" + chord,null,null);
-						final MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(),id);
-				      	mediaPlayer.start();
-				      	
-				      	mediaPlayer.setOnCompletionListener(new OnCompletionListener() 
-				      	{
-				      		public void onCompletion(MediaPlayer arg0) 
-				      		{
-								mediaPlayer.release();
-							}
-				      	});
+						/* Get the Texview's contents, convert it to a resource name and play the related sound */
+						playSound(chordView.getText().toString());
 					} 
 					catch(Exception e) 
 					{
@@ -291,7 +267,7 @@ public class MainActivity extends Activity
 		        	currentKey = Circle.AllKeys[modeSpinner.getSelectedItemPosition()][keySpinner.getSelectedItemPosition()];
 		        }
 		        
-				public void onNothingSelected(AdapterView<?> arg0) { } /* A useless method */
+				public void onNothingSelected(AdapterView<?> arg0) { } // A useless method 
 
 		    });
 
@@ -301,18 +277,14 @@ public class MainActivity extends Activity
 			    public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) 
 			    {
 			    	if(position == 0) 
-			    	{
 			    		isMinor=false;
-			    	}
-			    	if(position == 1)
-			    	{
+			    	else if(position == 1)
 			    		isMinor=true;
-			    	}
 			    	
 			    	currentKey = Circle.AllKeys[modeSpinner.getSelectedItemPosition()][keySpinner.getSelectedItemPosition()];
 			    }
 			
-				public void onNothingSelected(AdapterView<?> arg0) {} /* Useless! */
+				public void onNothingSelected(AdapterView<?> arg0) {}  //Useless! 
 				
 		    });
 		    
@@ -371,7 +343,7 @@ public class MainActivity extends Activity
 		    {
 		    	public void onClick(View v) 
 		    	{
-	    		 	/* Refresh variables */
+	    		 	/* Refresh variables */ 
 					isGuitar = guitarBox.isChecked();
 					isLoop = isLoopBox.isChecked();
 					
@@ -379,7 +351,7 @@ public class MainActivity extends Activity
 					String text = playButton.getText().toString();
 					
 					/* Button is in Play mode */
-					if(text.equals("Play")) 
+					if(!isPlaying) 
 					{
 						/* Initiate our object and kick 'er off! */
 						if(playThread != null) 
@@ -392,15 +364,21 @@ public class MainActivity extends Activity
 						playThread.execute();
 						
 						playButton.setText("Stop");
+						isPlaying = true;
 					}
 					
 					/* Button is in Stop mode */
-					else if(text.equals("Stop")) 
+					else if(isPlaying) 
 					{
 						if(playThread != null) 
 						{
 							playThread.cancel(true);
 						}
+						
+						playButton.setText("Play");
+						clearViews();
+						
+						isPlaying = false;
 					}
 		    	}
 		    });
@@ -432,6 +410,32 @@ public class MainActivity extends Activity
     /* The Play task */
     public class PlayTask extends AsyncTask<Void, Integer, Void> 
     {
+    	/* These values are used for publishing progress */
+    	public static final int PLAY_START = 0;
+    	public static final int PLAY_ONE = 1;
+    	public static final int PLAY_TWO = 2;
+    	public static final int PLAY_THREE = 3;
+    	public static final int PLAY_FOUR = 4;
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	public static final int PLAY_END = 5;
+    	
     	private int BPM = START_BPM;
     	private String[] chords = {""};
     	private int delay = 100;
@@ -460,34 +464,35 @@ public class MainActivity extends Activity
 				{
 					//Play sounds with calculated delay 
 					//For now, check for an "isCancelled" after every line 
-					publishProgress(0);
+					publishProgress(PLAY_START);
 		    		playSound(chords[0]);
 		    		if(isCancelled()) { return null; }
 		    		Thread.sleep(delay);
 		    		
-		    		publishProgress(1);
+		    		publishProgress(PLAY_ONE);
 		    		if(isCancelled()) { return null; }
 		    		playSound(chords[1]);
 		    		if(isCancelled()) { return null; }
 		    		Thread.sleep(delay);
 		    		
-		    		publishProgress(2);
+		    		publishProgress(PLAY_TWO);
 		    		if(isCancelled()) { return null; }
 		    		playSound(chords[2]);
 		    		if(isCancelled()) { return null; }
 		    		Thread.sleep(delay);
 		    		
-		    		publishProgress(3);
+		    		publishProgress(PLAY_THREE);
 		    		if(isCancelled()) { return null; }
 		    		playSound(chords[3]);
 		    		if(isCancelled()) { return null; }
 		    		
 		    		Thread.sleep(delay);
-		    		publishProgress(4);
+		    		publishProgress(PLAY_FOUR);
 		    		
 		    		//If we're not supposed to loop, cancel 
-		    		if(! isLoop) 
+		    		if(!isLoop) 
 		    		{
+		    			publishProgress(PLAY_END); //Send the ending signal
 		    			cancel(true);
 		    		}
 	    		
@@ -509,19 +514,6 @@ public class MainActivity extends Activity
 		{
 			int val = params[0].intValue();
 			
-			if(val < 0 || val > 4) 
-			{
-				/* 5 is exit code */
-				if(val == 5) 
-				{
-					clearViews();
-					//exitPlay();
-					playButton.setText("Play");
-				}
-				return;
-			}
-			
-			
 			/* Go through cases and bold/unbold TextViews */
 			if(val == 0) 
 			{
@@ -532,6 +524,15 @@ public class MainActivity extends Activity
 			else if(val == 4) 
 			{
 				unhighlightText(chordFour);
+			}
+			
+			/* 5 is exit code, also catch all other invalid codes */
+			else if(val == PLAY_END || val < PLAY_START || val > PLAY_END) 
+			{
+				isPlaying = false;
+				clearViews();
+				//exitPlay();
+				playButton.setText("Play");
 			}
 			
 			else 
@@ -608,7 +609,7 @@ public class MainActivity extends Activity
         		    			 }
         		    			 else 
         		    			 {
-        		    				 saveChords(getCurrentChordString(), title);
+        		    				 saveChords(title);
         		    			 }
         		    		
         					} 
@@ -647,7 +648,6 @@ public class MainActivity extends Activity
     public void onCreateContextMenu(ContextMenu menu, View v,ContextMenuInfo menuInfo) 
     {  
 	    /* Get the current key's chords; add them to the popup menu */
-		super.onCreateContextMenu(menu, v, menuInfo);
 		TextView textView = (TextView)v;
 		viewID = textView.getId();
 		String[] chords= currentKey.Chords;
@@ -730,15 +730,6 @@ public class MainActivity extends Activity
     }
     
     
-    /** Play a chord and Bold/Size change a TextView */
-    public void playChord(String name, TextView tv) 
-    {
-    	highlightText(tv);
-    	playSound(name);
-    	unhighlightText(tv);
-    }
-    
-    
     /** Returns the current chords as a CSV string */
     public String getCurrentChordString() 
     {
@@ -787,7 +778,7 @@ public class MainActivity extends Activity
     
     
     /** Saves the given CSV string of chords into the database */
-    public void saveChords(String chordString, String title) 
+    public void saveChords(String title) 
     {
     	/* Get a a new DatabaseHelper/ Database with name "names" */
     	DatabaseHelper helper = new DatabaseHelper(getApplicationContext());
@@ -806,7 +797,7 @@ public class MainActivity extends Activity
 		db.insert("names",null, values);
 		
 		/* Indicate success and close the DB */
-		Toast.makeText( getApplicationContext(),"Chords Saved",Toast.LENGTH_SHORT).show();
+		Toast.makeText( getApplicationContext(),"Chords saved as " + title, Toast.LENGTH_LONG).show();
 		db.close();
     }
     
@@ -841,6 +832,11 @@ public class MainActivity extends Activity
     	/* Put all sounds and ID's into the HashMap */
     	try
     	{
+    		/* Open a ProgessDialog */
+    		/*ProgressDialog progress;
+    		progress = ProgressDialog.show(this, "Songwriter", "Loading sounds...", true);*/
+    		
+    		/* Load sounds */
     		soundMap.put("a", soundPool.load(this, R.raw.a, 1));
     		soundMap.put("a7th", soundPool.load(this, R.raw.a7th, 1));
     		soundMap.put("a7thgut", soundPool.load(this, R.raw.a7thgut, 1));
@@ -891,6 +887,9 @@ public class MainActivity extends Activity
     		soundMap.put("gmgut", soundPool.load(this, R.raw.gmgut, 1));
     		soundMap.put("gsm", soundPool.load(this, R.raw.gsm, 1));
     		soundMap.put("gsmgut", soundPool.load(this, R.raw.gsmgut, 1));
+    		
+    		/* Close our dialog */
+    		//progress.dismiss();
     	}
     	catch(Exception e)
     	{
@@ -898,5 +897,24 @@ public class MainActivity extends Activity
     	}
     }
 }
+
+
+
+/*  Current Issues */
+
+/* When changing individual chord via long-press, the following error occurs:
+ * 06-06 20:25:37.741: E/ViewRootImpl(11937): sendUserActionEvent() mView == null
+ * 
+ * Error also happens when LoadChords is opened and a save is long pressed
+*/
+
+
+/* ----- TO-DO ----- */
+
+/* 1.  Restrict some features while chords are playing */
+
+
+
+
 
 
