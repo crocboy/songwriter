@@ -31,7 +31,7 @@ public class Util
 	}
 	
 	
-	/** Convert resource name to chord name asm to A#m, gm to Gm, etc **/
+	/** Convert resource name to chord name: asm to A#m, gm to Gm, etc **/
 	public static String toChord(String res)
 	{
 		return null;
