@@ -15,10 +15,9 @@ public final class R {
         public static final int gear=0x7f020001;
         public static final int ic_launcher=0x7f020002;
         public static final int icon=0x7f020003;
-        public static final int sel=0x7f020004;
-        public static final int splash_image=0x7f020005;
-        public static final int tile=0x7f020006;
-        public static final int tilesheet=0x7f020007;
+        public static final int splash_image=0x7f020004;
+        public static final int tile=0x7f020005;
+        public static final int tilesheet=0x7f020006;
     }
     public static final class id {
         public static final int back_to_home=0x7f070004;
@@ -34,11 +33,11 @@ public final class R {
         public static final int help_item=0x7f07001e;
         public static final int help_view=0x7f070003;
         public static final int imageView1=0x7f07001b;
-        public static final int linlayout=0x7f070009;
         public static final int load_file_empty=0x7f070007;
         public static final int load_file_list=0x7f070008;
         public static final int load_item=0x7f07001f;
         public static final int loop_box=0x7f07000e;
+        public static final int mainparent=0x7f070009;
         public static final int menu_delete=0x7f07001c;
         public static final int piano_box=0x7f070016;
         public static final int play_button=0x7f07000d;

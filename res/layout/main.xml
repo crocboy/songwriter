@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/linlayout"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mainparent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background = "@drawable/tilesheet" >
-    
-    <LinearLayout
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:orientation="horizontal" >
         
         <Spinner
             android:id="@+id/choose_key"
+            android:layout_alignParentLeft = "true"
+            android:layout_alignParentBottom = "true"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:textSize="30sp" />
@@ -20,6 +16,7 @@
             android:id="@+id/choose_major"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
+            android:layout_toRightOf = "@id/choose_key"
             android:textSize="30sp" />
         <Button
             android:id="@+id/gen_button"
@@ -43,13 +40,10 @@
             android:gravity="center_vertical"
             android:textSize="19sp"
             android:id="@+id/loop_box" />
-           
-            
-	</LinearLayout>
 			
 	<LinearLayout
 	    android:layout_width="match_parent"
-	    android:layout_height="match_parent"
+	    android:layout_height="wrap_content"
 	    android:orientation="horizontal" >
 		 
 	    <TextView
@@ -90,76 +84,82 @@
 
 	</LinearLayout>
 	
-	 <LinearLayout
-		android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:orientation="horizontal" >
-       
-        <SeekBar
-            android:id = "@+id/tempoBar"
-            android:layout_width = "match_parent"
-            android:layout_height = "wrap_content"
-            android:layout_weight = "3" />
-        <TextView
-            android:id="@+id/tempoView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" 
-            android:layout_gravity = "center"
-            android:text = "Tempo: 120"
-            android:layout_weight = "1"
-            android:padding = "10dip" />
-       
-        
-    </LinearLayout>
-
-	    <LinearLayout
+	
+	<RelativeLayout
+	    android:layout_width = "match_parent"
+	    android:layout_height= "wrap_content"
+	    android:gravity = "bottom" >
+	    
+		 <LinearLayout
 			android:layout_width="match_parent"
 		    android:layout_height="wrap_content"
-		    android:orientation="horizontal"
-		    android:gravity = "bottom|center" >
-        
-	         <TextView
-	            android:id="@+id/textview"
-	            android:layout_width = "wrap_content"
+		    android:orientation="horizontal" >
+	       
+	        <SeekBar
+	            android:id = "@+id/tempoBar"
+	            android:layout_width = "match_parent"
 	            android:layout_height = "wrap_content"
-	            android:textSize="25sp" />
-	         
-	         <RadioGroup
-		        android:layout_width = "wrap_content"
-		        android:layout_height = "wrap_content"
-		        android:orientation = "horizontal" >
-		        
-			     <RadioButton
-			         
-				     android:id="@+id/piano_box"
-				     android:layout_width="wrap_content"
-				     android:layout_height="wrap_content"
-				     android:layout_gravity="bottom"
-				     android:textSize="19sp"
-				     android:text="@string/piano" />
+	            android:layout_weight = "3" />
+	        <TextView
+	            android:id="@+id/tempoView"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content" 
+	            android:layout_gravity = "center"
+	            android:text = "Tempo: 120"
+	            android:layout_weight = "1"
+	            android:padding = "10dip" />
+	       
+	        
+	    </LinearLayout>
 	
-		    
-				<RadioButton
-				    android:id="@+id/guitar_box"
-				    android:layout_width="wrap_content"
-				    android:layout_height="wrap_content"
-				    android:layout_gravity="bottom"
-				    android:paddingRight="15dp"
-				    android:textSize="19sp"
-				    android:text="@string/guitar" />
-			
-			</RadioGroup>
-			
-			 <Button
-		        android:id="@+id/settings_button"
-		        android:layout_height="wrap_content"
-		        android:layout_width="wrap_content"
-		        android:text="@string/settings"
-		        android:textSize="25sp"
-		        android:layout_marginTop="3dp"  />
-
-	</LinearLayout>
+		    <LinearLayout
+				android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:orientation="horizontal" >
+	        
+		         <TextView
+		            android:id="@+id/textview"
+		            android:layout_width = "wrap_content"
+		            android:layout_height = "wrap_content"
+		            android:textSize="25sp" />
+		         
+		         <RadioGroup
+			        android:layout_width = "wrap_content"
+			        android:layout_height = "wrap_content"
+			        android:orientation = "horizontal" >
+			        
+				     <RadioButton
+				         
+					     android:id="@+id/piano_box"
+					     android:layout_width="wrap_content"
+					     android:layout_height="wrap_content"
+					     android:layout_gravity="bottom"
+					     android:textSize="19sp"
+					     android:text="@string/piano" />
+		
+			    
+					<RadioButton
+					    android:id="@+id/guitar_box"
+					    android:layout_width="wrap_content"
+					    android:layout_height="wrap_content"
+					    android:layout_gravity="bottom"
+					    android:paddingRight="15dp"
+					    android:textSize="19sp"
+					    android:text="@string/guitar" />
+				
+				</RadioGroup>
+				
+				 <Button
+			        android:id="@+id/settings_button"
+			        android:layout_height="wrap_content"
+			        android:layout_width="wrap_content"
+			        android:text="@string/settings"
+			        android:textSize="25sp"
+			        android:layout_marginTop="3dp"  />
 	
-</LinearLayout>
+		</LinearLayout>
+	</RelativeLayout>
+	
+</RelativeLayout>
 
         
