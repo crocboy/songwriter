@@ -176,7 +176,7 @@ public class MainActivity extends Activity
 	      	isGuitar= guitarBox.isChecked();
 	      	pianoBox.setChecked(true);
 	      	
-	      	affectedViews = new View[] { keySpinner, modeSpinner, createButton, playButton, settingsButton, isLoopBox, tempoBar, pianoBox, guitarBox};
+	      	affectedViews = new View[] { keySpinner, modeSpinner, createButton, settingsButton, isLoopBox, tempoBar, pianoBox, guitarBox};
 	        
 	        /* Set RadioButton listeners */
 	        pianoBox.setOnCheckedChangeListener(new OnCheckedChangeListener() 
@@ -364,6 +364,7 @@ public class MainActivity extends Activity
 						playThread.execute();
 						
 						playButton.setText("Stop");
+						disableViews();
 						isPlaying = true;
 					}
 					
@@ -378,6 +379,7 @@ public class MainActivity extends Activity
 						playButton.setText("Play");
 						clearViews();
 						
+						enableViews();
 						isPlaying = false;
 					}
 		    	}
@@ -394,14 +396,14 @@ public class MainActivity extends Activity
     
     
     /** Enter into Play mode **/
-    public void enterPlay()
+    public void disableViews()
     {
     	for(View v : affectedViews)
     		v.setEnabled(false);
     }
     
     /** Exit Play mode **/
-    public void exitPlay()
+    public void enableViews()
     {
     	for(View v : affectedViews)
     		v.setEnabled(true);
@@ -531,7 +533,7 @@ public class MainActivity extends Activity
 			{
 				isPlaying = false;
 				clearViews();
-				//exitPlay();
+				enableViews();
 				playButton.setText("Play");
 			}
 			
@@ -912,6 +914,8 @@ public class MainActivity extends Activity
 /* ----- TO-DO ----- */
 
 /* 1.  Restrict some features while chords are playing */
+/* 2.  Fade-out all GUT chords */
+/* 3.  Re-vamp layout (Make it work!) */
 
 
 
