@@ -22,7 +22,9 @@
     <string name="delete">Delete this item?</string>
     <string name="clickme">Click a chord to play it, long-press to change it</string>
      <string name="saveme">Press your phone\'s "Menu" button for more options</string>
-       <string name="changelog_full_title">Change Log</string>
+     
+     
+    <string name="changelog_full_title">Change Log</string>
     <string name="changelog_title">What\'s New</string>
     <string name="changelog_ok_button">OK</string>
     
