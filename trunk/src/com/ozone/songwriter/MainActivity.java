@@ -133,7 +133,7 @@ public class MainActivity extends Activity
 		    modeSpinner = (Spinner) findViewById( R.id.choose_major);
 		    
 		    playButton = (Button)findViewById(R.id.play_button);
-	        createButton = (Button)findViewById(R.id.gen_button);
+	        createButton = (Button)findViewById(R.id.create_button);
 	        settingsButton = (Button) findViewById(R.id.settings_button);
 			
 			/* SeekBars have a min value of zero, so we need to use basic math to set the min as a non-zero value */ 
