@@ -42,6 +42,7 @@
 			android:layout_marginTop="6dp"  />
         
     </LinearLayout>
+   
     
     
     <!-- This layout holds all "Play" related views - it's centered on the bottom edge of the screen -->
@@ -49,9 +50,11 @@
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:orientation = "horizontal"
+        android:id = "@+id/play_layout"
         android:layout_alignParentBottom = "true"
-        
         android:layout_centerHorizontal = "true" >
+        
+        
         
         <RadioGroup
 			android:layout_width = "wrap_content"
@@ -95,8 +98,26 @@
             android:id="@+id/loop_box" />
         
      </LinearLayout>
-			
+     
     
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:orientation = "horizontal"
+        android:layout_centerHorizontal = "true"
+        android:layout_alignRight = "@id/play_layout" >
+         
+         <SeekBar
+	     android:id = "@+id/tempoBar"
+	     android:layout_width = "match_parent"
+	     android:layout_height = "wrap_content"/>
+	 	<TextView
+	     android:id="@+id/tempoView"
+	     android:layout_width="wrap_content"
+	     android:layout_height="wrap_content" 
+	     android:text = "Tempo: 120"/>
+	 </LinearLayout>
+     
     <!-- This layout holds the four chord views -->
 	<LinearLayout
 	    android:layout_width="match_parent"
@@ -147,28 +168,6 @@
 	    android:layout_width = "match_parent"
 	    android:layout_height= "wrap_content"
 	    android:gravity = "bottom" >
-	    
-		 <LinearLayout
-			android:layout_width="match_parent"
-		    android:layout_height="wrap_content"
-		    android:orientation="horizontal" >
-	       
-	        <SeekBar
-	            android:id = "@+id/tempoBar"
-	            android:layout_width = "match_parent"
-	            android:layout_height = "wrap_content"
-	            android:layout_weight = "3" />
-	        <TextView
-	            android:id="@+id/tempoView"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content" 
-	            android:layout_gravity = "center"
-	            android:text = "Tempo: 120"
-	            android:layout_weight = "1"
-	            android:padding = "10dip" />
-	       
-	        
-	    </LinearLayout>
 	
 		    <LinearLayout
 				android:layout_width="match_parent"
