@@ -915,7 +915,6 @@ public class MainActivity extends Activity
 
 /* 1.  Restrict some features while chords are playing */
 /* 2.  Fade-out all GUT chords */
-/* 3.  Re-vamp layout (Make it work!) */
 
 
 
