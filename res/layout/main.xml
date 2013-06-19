@@ -42,19 +42,61 @@
 			android:layout_marginTop="6dp"  />
         
     </LinearLayout>
-   
     
-    
-    <!-- This layout holds all "Play" related views - it's centered on the bottom edge of the screen -->
+     
+    <!-- This layout holds the four chord views -->
+	<LinearLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_centerVertical = "true"
+	    android:orientation="horizontal" >
+		 
+	    <TextView
+	        android:id="@+id/randchord1"
+	        android:layout_width="0dip"
+	        android:layout_height="match_parent"
+	        android:layout_weight="1"
+	        android:textSize="35sp"
+	        android:clickable="true"
+	        android:gravity="center_vertical|center_horizontal" />
+	    <TextView
+	        android:id="@+id/randchord2"
+	        android:layout_width="0dip"
+	        android:layout_height="match_parent"
+	        android:clickable="true"
+	        android:longClickable="true"
+	        android:layout_weight="1"
+	        android:textSize="35sp"
+	        android:gravity="center_vertical|center_horizontal"  />
+	    <TextView
+	        android:id="@+id/randchord3"
+	        android:layout_width="0dip"
+	        android:layout_height="match_parent"
+	        android:clickable="true"
+	        android:longClickable="true"
+	        android:layout_weight="1"
+	        android:textSize="35sp"
+	        android:gravity="center_vertical|center_horizontal"  />
+	    <TextView
+	        android:id="@+id/randchord4"
+	        android:layout_width="0dip"
+	        android:layout_height="match_parent"
+	        android:clickable="true"
+	        android:longClickable="true"
+	        android:layout_weight="1"
+	        android:textSize="35sp"
+	        android:gravity = "center_vertical|center_horizontal" />
+
+	</LinearLayout>
+	 
+	<!-- This layout holds all "Play" related views - it's centered on the bottom edge of the screen -->
     <LinearLayout
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:orientation = "horizontal"
-        android:id = "@+id/play_layout"
-        android:layout_alignParentBottom = "true"
-        android:layout_centerHorizontal = "true" >
-        
-        
+        android:layout_above = "@+id/tempo_layout"
+        android:layout_centerHorizontal= "true"
+        android:id = "@+id/play_layout" >
         
         <RadioGroup
 			android:layout_width = "wrap_content"
@@ -101,87 +143,36 @@
      
     
     <LinearLayout
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:orientation = "horizontal"
-        android:layout_centerHorizontal = "true"
-        android:layout_alignRight = "@id/play_layout" >
-         
-         <SeekBar
-	     android:id = "@+id/tempoBar"
-	     android:layout_width = "match_parent"
-	     android:layout_height = "wrap_content"/>
-	 	<TextView
-	     android:id="@+id/tempoView"
-	     android:layout_width="wrap_content"
-	     android:layout_height="wrap_content" 
-	     android:text = "Tempo: 120"/>
-	 </LinearLayout>
-     
-    <!-- This layout holds the four chord views -->
-	<LinearLayout
-	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
-	    android:layout_centerVertical = "true"
-	    android:orientation="horizontal" >
-		 
-	    <TextView
-	        android:id="@+id/randchord1"
-	        android:layout_width="0dip"
-	        android:layout_height="match_parent"
-	        android:layout_weight="1"
-	        android:textSize="35sp"
-	        android:clickable="true"
-	        android:gravity="center_vertical|center_horizontal" />
-	    <TextView
-	        android:id="@+id/randchord2"
-	        android:layout_width="0dip"
-	        android:layout_height="match_parent"
-	        android:clickable="true"
-	        android:longClickable="true"
-	        android:layout_weight="1"
-	        android:textSize="35sp"
-	        android:gravity="center_vertical|center_horizontal"  />
-	    <TextView
-	        android:id="@+id/randchord3"
-	        android:layout_width="0dip"
-	        android:layout_height="match_parent"
-	        android:clickable="true"
-	        android:longClickable="true"
-	        android:layout_weight="1"
-	        android:textSize="35sp"
-	        android:gravity="center_vertical|center_horizontal"  />
-	    <TextView
-	        android:id="@+id/randchord4"
-	        android:layout_width="0dip"
-	        android:layout_height="match_parent"
-	        android:clickable="true"
-	        android:longClickable="true"
-	        android:layout_weight="1"
-	        android:textSize="35sp"
-	        android:gravity = "center_vertical|center_horizontal" />
-
-	</LinearLayout>
-	
-	
-	<RelativeLayout
-	    android:layout_width = "match_parent"
-	    android:layout_height= "wrap_content"
-	    android:gravity = "bottom" >
-	
-		    <LinearLayout
-				android:layout_width="match_parent"
-			    android:layout_height="wrap_content"
-			    android:orientation="horizontal" >
-	        
-		         <TextView
-		            android:id="@+id/textview"
-		            android:layout_width = "wrap_content"
-		            android:layout_height = "wrap_content"
-		            android:textSize="25sp" />
-	
-		</LinearLayout>
-	</RelativeLayout>
+        android:layout_width="match_parent"
+        android:orientation = "horizontal"
+        android:id = "@id/tempo_layout"
+        android:gravity = "center_vertical"
+        android:layout_alignLeft = "@id/play_layout"
+        android:layout_alignRight = "@id/play_layout"
+        android:layout_alignParentBottom = "true"
+        android:layout_centerHorizontal = "true" >
+        
+        <TextView
+            android:id = "@+id/tempoView"
+            android:layout_width= "wrap_content"
+            android:layout_height = "wrap_content"
+            android:paddingRight = "7sp"
+            android:textSize = "18sp"
+            android:text = "Tempo: 120" />
+        
+        <SeekBar
+	        android:id = "@+id/tempoBar"
+	        android:layout_width = "match_parent"
+	     	android:layout_height = "wrap_content"/>
+	 	
+	 	<TextView
+		    android:id="@+id/textview"
+		    android:layout_width = "wrap_content"
+		    android:layout_height = "wrap_content"
+		    android:textSize="25sp" />
+	 	
+	 </LinearLayout>
 	
 </RelativeLayout>
 
