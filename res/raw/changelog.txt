@@ -19,11 +19,19 @@
     </style>
   </head>
   <body>
+$ 2.2
+% Version 2.2 
+  _ 6-20-12
+    * Improved User Interface
+    * Added Looping
+    * Added Tempo Control
+    * Improved Chord Generation
+    * New Sounds!
 $ 2.1
   % Version 2.1 
   _ 5-20-12
     * Minor bug fixes
-    * Fixed Force CLose on most devices
+    * Fixed Force Close on most devices
     * Minor Interface Changes
 $ 2.0
   % Version 2.0 

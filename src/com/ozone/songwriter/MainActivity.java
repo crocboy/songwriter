@@ -203,7 +203,7 @@ public class MainActivity extends Activity
 			
 	        	public void onProgressChanged(SeekBar arg0, int progress, boolean arg2) 
 	        	{
-					setTempoView(getTempo());
+					//setTempoView(getTempo());
 					tempo = getTempo();
 	        	}
 	        });
