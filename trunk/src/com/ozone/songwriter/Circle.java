@@ -1,5 +1,7 @@
 package com.ozone.songwriter;
 
+import java.util.Random;
+
 /** Circle defines methods and variables to represent the Circle of Fifths **/
 public class Circle 
 {
@@ -88,8 +90,42 @@ public class Circle
 	
 
 	public static Sequence getChordSequence(Key key)
-	{
-		String[] chords = chordsFromBase(key.Base, key.isMinor);
+	{	
+		int chord_2;
+		int chord_3;
+		int chord_4;
+		String sound_1;
+		String sound_2;
+		String sound_3;
+		String sound_4;
+		
+		final Random random = new Random();
+
+		String[] chords = key.Chords; //allChords[currentKey];
+	
+		chord_2 = random.nextInt(chords.length);
+		while(chord_2 == 0) 
+		{
+			chord_2 = random.nextInt(chords.length);
+		}
+		
+		chord_3 = random.nextInt(chords.length);
+		while(chord_3 == chord_2 ) 
+		{
+			chord_3 = random.nextInt(chords.length);
+		}
+		
+		chord_4 = random.nextInt(chords.length);
+		while(chord_4 == chord_3 || chord_4 == chord_2 || chord_4 == 0) 
+		{
+			chord_4 = random.nextInt(chords.length);
+		}
+		
+		sound_1= chords[0];
+		sound_2= chords[chord_2];
+		sound_3= chords[chord_3];
+		sound_4= chords[chord_4];
+		
 		
 		return new Sequence(chords[0], chords[1], chords[2], chords[3]);
 	}

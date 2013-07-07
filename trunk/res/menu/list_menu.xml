@@ -9,7 +9,4 @@
      <item android:id="@+id/load_item"
     android:icon="@android:drawable/ic_menu_search"
     android:title="Load Chords" />
-     <item android:id="@+id/gen_settings_item"
-    android:icon="@android:drawable/ic_menu_preferences"
-    android:title="General Settings" />
     </menu>
