@@ -1,7 +1,6 @@
 package com.ozone.songwriter;
 
 import java.util.HashMap;
-import java.util.Random;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -47,7 +46,7 @@ public class MainActivity extends Activity
 	boolean isGuitar=false;
 	boolean isMinor=false;
 	boolean isPlaying = false;
-	public Circle.Key currentKey = new Circle.Key(Circle.A, false);
+	Circle.Key currentKey = new Circle.Key(Circle.A, false);
 	boolean isLoop=false;
 	PlayTask playThread = null;
 	
@@ -102,8 +101,6 @@ public class MainActivity extends Activity
     		/* Classic two lines */
     		super.onCreate(bundle);
     		setContentView(R.layout.main);
-    		
-	    	final Random random = new Random();
     	
 	    	/* Do the Changelog business */
 	    	ChangeLog cl = new ChangeLog(this);
@@ -296,43 +293,11 @@ public class MainActivity extends Activity
 		    	public void onClick(View arg0) 
 		    	{
 		    		statusView.setText("");
-		    		int chord_2;
-		    		int chord_3;
-		    		int chord_4;
-		    		String sound_1;
-		    		String sound_2;
-		    		String sound_3;
-		    		String sound_4;
-		    		String[] chords = null;
-		    		
 		    		Circle.Key key = Circle.AllKeys[modeSpinner.getSelectedItemPosition()][keySpinner.getSelectedItemPosition()];
-
-		    		chords = key.Chords; //allChords[currentKey];
-				
-		    		chord_2 = random.nextInt(chords.length);
-		    		while(chord_2 == 0) 
-		    		{
-		    			chord_2 = random.nextInt(chords.length);
-		    		}
 		    		
-		    		chord_3 = random.nextInt(chords.length);
-		    		while(chord_3 == chord_2 ) 
-		    		{
-		    			chord_3 = random.nextInt(chords.length);
-		    		}
-		    		
-		    		chord_4 = random.nextInt(chords.length);
-		    		while(chord_4 == chord_3 || chord_4 == chord_2 || chord_4 == 0) 
-		    		{
-		    			chord_4 = random.nextInt(chords.length);
-		    		}
-		    		
-		    		sound_1= chords[0];
-		    		sound_2= chords[chord_2];
-		    		sound_3= chords[chord_3];
-		    		sound_4= chords[chord_4];
+		    		Sequence seq = Circle.getChordSequence(key);
 				  
-		    		setChords(sound_1,sound_2,sound_3,sound_4);
+		    		setChords(seq.ChordStrings);
 		    	}
 		    }); 
 
@@ -563,11 +528,6 @@ public class MainActivity extends Activity
     {
         switch (item.getItemId()) 
         {
-        	case R.id.gen_settings_item:
-        		/* Start the settings activity */
-        		Intent mySettingsIntent = new Intent(this, GeneralSettings.class);
-                startActivityForResult(mySettingsIntent, 0);
-                break;
         	
             case R.id.help_item:
             	/* Start the "Help" activity */
@@ -840,50 +800,36 @@ public class MainActivity extends Activity
     		
     		/* Load sounds */
     		soundMap.put("a", soundPool.load(this, R.raw.a, 1));
-    		soundMap.put("a7th", soundPool.load(this, R.raw.a7th, 1));
-    		soundMap.put("a7thgut", soundPool.load(this, R.raw.a7thgut, 1));
     		soundMap.put("agut", soundPool.load(this, R.raw.agut, 1));
     		soundMap.put("am", soundPool.load(this, R.raw.am, 1));
     		soundMap.put("amgut", soundPool.load(this, R.raw.amgut, 1));
     		soundMap.put("b", soundPool.load(this, R.raw.b, 1));
-    		soundMap.put("b7th", soundPool.load(this, R.raw.b7th, 1));
-    		soundMap.put("b7thgut", soundPool.load(this, R.raw.b7thgut, 1));
     		soundMap.put("bb", soundPool.load(this, R.raw.bb, 1));
     		soundMap.put("bbgut", soundPool.load(this, R.raw.bbgut, 1));
     		soundMap.put("bgut", soundPool.load(this, R.raw.bgut, 1));
     		soundMap.put("bm", soundPool.load(this, R.raw.bm, 1));
     		soundMap.put("bmgut", soundPool.load(this, R.raw.bmgut, 1));
     		soundMap.put("c", soundPool.load(this, R.raw.c, 1));
-    		soundMap.put("c7th", soundPool.load(this, R.raw.c7th, 1));
-    		soundMap.put("c7thgut", soundPool.load(this, R.raw.c7thgut, 1));
     		soundMap.put("cgut", soundPool.load(this, R.raw.cgut, 1));
     		soundMap.put("csm", soundPool.load(this, R.raw.csm, 1));
     		soundMap.put("csmgut", soundPool.load(this, R.raw.csmgut, 1));
     		soundMap.put("d", soundPool.load(this, R.raw.d, 1));
-    		soundMap.put("d7th", soundPool.load(this, R.raw.d7thgut, 1));
-    		soundMap.put("d7thgut", soundPool.load(this, R.raw.d7thgut, 1));
     		soundMap.put("dgut", soundPool.load(this, R.raw.dgut, 1));
     		soundMap.put("dm", soundPool.load(this, R.raw.dm, 1));
     		soundMap.put("dmgut", soundPool.load(this, R.raw.dmgut, 1));
     		soundMap.put("dsm", soundPool.load(this, R.raw.dsm, 1));
     		soundMap.put("dsmgut", soundPool.load(this, R.raw.dsmgut, 1));
     		soundMap.put("e", soundPool.load(this, R.raw.e, 1));
-    		soundMap.put("e7th", soundPool.load(this, R.raw.e7th, 1));
-    		soundMap.put("e7thgut", soundPool.load(this, R.raw.e7thgut, 1));
     		soundMap.put("egut", soundPool.load(this, R.raw.egut, 1));
     		soundMap.put("em", soundPool.load(this, R.raw.em, 1));
     		soundMap.put("emgut", soundPool.load(this, R.raw.emgut, 1));
     		soundMap.put("f", soundPool.load(this, R.raw.f, 1));
     		soundMap.put("fgut", soundPool.load(this, R.raw.fgut, 1));
     		soundMap.put("fs", soundPool.load(this, R.raw.fs, 1));
-    		soundMap.put("f7th", soundPool.load(this, R.raw.fs7th, 1));
-    		soundMap.put("f7thgut", soundPool.load(this, R.raw.fs7thgut, 1));
     		soundMap.put("fsgut", soundPool.load(this, R.raw.fsgut, 1));
     		soundMap.put("fsm", soundPool.load(this, R.raw.fsm, 1));
     		soundMap.put("fsmgut", soundPool.load(this, R.raw.fsmgut, 1));
     		soundMap.put("g", soundPool.load(this, R.raw.g, 1));
-    		soundMap.put("g7th", soundPool.load(this, R.raw.g7th, 1));
-    		soundMap.put("g7thgut", soundPool.load(this, R.raw.g7thgut, 1));
     		soundMap.put("ggut", soundPool.load(this, R.raw.ggut, 1));
     		soundMap.put("gm", soundPool.load(this, R.raw.gm, 1));
     		soundMap.put("gmgut", soundPool.load(this, R.raw.gmgut, 1));
@@ -915,6 +861,10 @@ public class MainActivity extends Activity
 
 /* 1.  Restrict some features while chords are playing */
 /* 2.  Fade-out all GUT chords */
+/* 3.  Add filename view */
+/* 4.  Fix TempoBar issue */
+/* 5.  Re-write owner's manual in HTML */
+/* 6.  Handle onPause and onResume if needed */
 
 
 

@@ -95,8 +95,17 @@
         android:layout_width="wrap_content"
         android:orientation = "horizontal"
         android:layout_above = "@+id/tempo_layout"
+        android:gravity = "center_horizontal"
         android:layout_centerHorizontal= "true"
         android:id = "@+id/play_layout" >
+	    
+        <TextView
+            android:id = "@+id/tempoView"
+            android:layout_width= "wrap_content"
+            android:layout_height = "wrap_content"
+            android:paddingRight = "7sp"
+            android:textSize = "18sp"
+            android:text = "Tempo: 120" />
         
         <RadioGroup
 			android:layout_width = "wrap_content"
@@ -148,18 +157,9 @@
         android:orientation = "horizontal"
         android:id = "@id/tempo_layout"
         android:gravity = "center_vertical"
-        android:layout_alignLeft = "@id/play_layout"
-        android:layout_alignRight = "@id/play_layout"
         android:layout_alignParentBottom = "true"
         android:layout_centerHorizontal = "true" >
         
-        <TextView
-            android:id = "@+id/tempoView"
-            android:layout_width= "wrap_content"
-            android:layout_height = "wrap_content"
-            android:paddingRight = "7sp"
-            android:textSize = "18sp"
-            android:text = "Tempo: 120" />
         
         <SeekBar
 	        android:id = "@+id/tempoBar"
